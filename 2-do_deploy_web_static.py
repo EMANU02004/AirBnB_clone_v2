@@ -3,6 +3,7 @@
 import os
 from datetime import datetime
 from fabric.api import
+import shlex
 
 env.hosts = ['54.90.39.8', '35.153.226.155']
 """List of servers"""
