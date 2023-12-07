@@ -1,4 +1,4 @@
-# Script that configures Nginx server with someof the folders and files
+# Script that configures Nginx server with some folders and files
 
 exec {'update':
   provider => shell,
@@ -6,16 +6,16 @@ exec {'update':
   before   => Exec['install Nginx'],
 }
 
+exec {'install Nginx':
+  provider => shell,
+  command  => 'sudo apt-get -y install nginx',
+  before   => Exec['start Nginx'],
+}
+
 exec {'start Nginx':
   provider => shell,
   command  => 'sudo service nginx start',
   before   => Exec['create first directory'],
-}
-
-exec {'restart Nginx':
-  provider => shell,
-  command  => 'sudo service nginx restart',
-  before   => File['/data/']
 }
 
 exec {'create first directory':
@@ -42,16 +42,16 @@ exec {'symbolic link':
   before   => Exec['put location'],
 }
 
-exec {'install Nginx':
-  provider => shell,
-  command  => 'sudo apt-get -y install nginx',
-  before   => Exec['start Nginx'],
-}
-
 exec {'put location':
   provider => shell,
   command  => 'sudo sed -i \'38i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n\t}\n\' /etc/nginx/sites-available/default',
   before   => Exec['restart Nginx'],
+}
+
+exec {'restart Nginx':
+  provider => shell,
+  command  => 'sudo service nginx restart',
+  before   => File['/data/']
 }
 
 file {'/data/':
