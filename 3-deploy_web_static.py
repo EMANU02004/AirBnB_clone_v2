@@ -2,11 +2,12 @@
 """A module for web application deployment with Fabric."""
 import os
 from datetime import datetime
-from fabric.api import env
+from fabric.api import env, local, put, run, runs_once
 
-env.hosts = [""54.90.39.8", "35.153.226.155"]
+env.hosts = ["54.90.39.8", "35.153.226.155"]
 """List the host server IP address"""
 
+@runs_once
 def do_pack():
     """Archives the static files."""
     if not os.path.isdir("versions"):
